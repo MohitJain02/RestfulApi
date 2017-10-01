@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "bd2c0a25b49b4282d8d645a1f921a7b0db9001b1"
+    "signature": "ac33ab456d6880796d372640daab9b09203b8b57"
   },
   "compilationOptions": {
     "defines": [
@@ -23,6 +23,7 @@
     ".NETCoreApp,Version=v1.0": {
       "buildingrestfullapi/1.0.0": {
         "dependencies": {
+          "AutoMapper": "5.1.1",
           "Microsoft.ApplicationInsights.AspNetCore": "2.0.0",
           "Microsoft.AspNetCore": "1.0.5",
           "Microsoft.AspNetCore.Mvc": "1.0.0",
@@ -35,6 +36,22 @@
         },
         "compile": {
           "BuildingRestFullApi.dll": {}
+        }
+      },
+      "automapper/5.1.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.3.0",
+          "NETStandard.Library": "1.6.1",
+          "System.Collections.Specialized": "4.0.1",
+          "System.ComponentModel.TypeConverter": "4.1.0",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Linq.Queryable": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/AutoMapper.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
       "microsoft.applicationinsights/2.2.0": {
@@ -1620,6 +1637,9 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Collections.Specialized.dll": {}
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Collections.Specialized.dll": {}
         }
       },
       "system.componentmodel/4.3.0": {
@@ -3475,6 +3495,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "automapper/5.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Q3uFSWccBUE1Q9BW88C6RO2Y/iFkPztTKK1ciyx1jhWPdOi5+pvzZ2EwcJKPiV0cr2EXZUWqQOsSpA5jVjfQBg==",
+      "path": "automapper/5.1.1",
+      "hashPath": "automapper.5.1.1.nupkg.sha512"
     },
     "microsoft.applicationinsights/2.2.0": {
       "type": "package",

@@ -1,4 +1,6 @@
 ﻿using BuildingRestFullApi.Entities;
+using BuildingRestFullApi.Helpers;
+using BuildingRestFullApi.Models;
 using BuildingRestFullApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,11 +53,32 @@ namespace BuildingRestFullApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.Run(async (context) =>
+            else
             {
-                await context.Response.WriteAsync("Hello World!");
+                //Set up the exception at global level
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("Fault Exception");
+                    });
+                });
+            }
+
+            //Set up the automapper with the projection to set the name and the age prop
+            AutoMapper.Mapper.Initialize(config =>
+            {
+                config.CreateMap<Author, AuthorDTo>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{ src.FirstName} {src.LastName}"))
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
+                 config.CreateMap<Book, BookDTO>();
             });
+
+            ////app.Run(async (context) =>
+            ////{
+            ////    await context.Response.WriteAsync("Hello World!");
+            ////});
 
             libraryContext.EnsureSeedDataForContext();
 
