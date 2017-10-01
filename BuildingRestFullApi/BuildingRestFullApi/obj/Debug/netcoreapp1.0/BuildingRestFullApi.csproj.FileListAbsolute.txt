@@ -1,0 +1,9 @@
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\bin\Debug\netcoreapp1.0\BuildingRestFullApi.deps.json
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\bin\Debug\netcoreapp1.0\BuildingRestFullApi.runtimeconfig.json
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\bin\Debug\netcoreapp1.0\BuildingRestFullApi.runtimeconfig.dev.json
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\bin\Debug\netcoreapp1.0\BuildingRestFullApi.dll
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\bin\Debug\netcoreapp1.0\BuildingRestFullApi.pdb
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\obj\Debug\netcoreapp1.0\BuildingRestFullApi.csprojResolveAssemblyReference.cache
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\obj\Debug\netcoreapp1.0\BuildingRestFullApi.AssemblyInfo.cs
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\obj\Debug\netcoreapp1.0\BuildingRestFullApi.dll
+E:\Demo\BuildingRestFulApi\RestfulApi\BuildingRestFullApi\BuildingRestFullApi\obj\Debug\netcoreapp1.0\BuildingRestFullApi.pdb
