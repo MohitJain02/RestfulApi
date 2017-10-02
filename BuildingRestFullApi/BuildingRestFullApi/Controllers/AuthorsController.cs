@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BuildingRestFullApi.Entities;
 using BuildingRestFullApi.Models;
 using BuildingRestFullApi.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ namespace BuildingRestFullApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetAuthorById")]
 
         public IActionResult GetAuthorById(Guid id)
         {
@@ -55,5 +56,27 @@ namespace BuildingRestFullApi.Controllers
 
             return Ok(matchedAuthor);
         }
+
+        [HttpPost]
+        public IActionResult CreateAuthor([FromBody] AuthorCreateDTO authorToCreate)
+        {
+            if (authorToCreate == null)
+            {
+                return BadRequest();
+            }
+
+            var authorToSave = AutoMapper.Mapper.Map<Author>(authorToCreate);
+
+            _repository.AddAuthor(authorToSave);
+
+            if (!_repository.SaveChanges())
+            {
+                throw new Exception("Not able to insert the author into the db");
+            }
+
+            var authorToReturn = AutoMapper.Mapper.Map<AuthorDTo>(authorToSave);
+            // to return the newly created uri along with the 201 created status code
+            return CreatedAtRoute("GetAuthorById", new {id = authorToSave.Id}, authorToReturn);
+        }
     }
-}
+};

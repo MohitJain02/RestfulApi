@@ -4,7 +4,6 @@ using BuildingRestFullApi.Entities;
 using BuildingRestFullApi.Models;
 using BuildingRestFullApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using Remotion.Linq.Utilities;
 
 namespace BuildingRestFullApi.Controllers
 {
@@ -33,7 +32,7 @@ namespace BuildingRestFullApi.Controllers
             return Ok(booksResult);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}" , Name = "GetBookByIdForAuthors")]
         public IActionResult GetBookByIdForAuthors(Guid authorId, Guid id)
         {
             if (!_repository.IsAuthorExists(authorId))
@@ -50,6 +49,34 @@ namespace BuildingRestFullApi.Controllers
             var singleBookResult = AutoMapper.Mapper.Map<BookDTO>(authorForBooks);
 
             return Ok(singleBookResult);
+        }
+
+        [HttpPost]
+        public IActionResult CreateBookForAuthor(Guid authorid, [FromBody] BookCreateDTO bookToCreate)
+        {
+            if (bookToCreate == null)
+            {
+                return BadRequest();
+            }
+
+            if (!_repository.IsAuthorExists(authorid))
+            {
+                return NotFound();
+                
+            }
+
+            var bookToSave = AutoMapper.Mapper.Map<Book>(bookToCreate);
+
+            _repository.AddBookForAuthor(authorid, bookToSave);
+
+            var bookToReturn = AutoMapper.Mapper.Map<BookDTO>(bookToSave);
+
+            return CreatedAtRoute("GetBookByIdForAuthors", new
+            {
+                authorId = authorid,
+                id = bookToSave.Id
+
+            }, bookToReturn);
         }
     }
 }

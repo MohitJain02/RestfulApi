@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BuildingRestFullApi.Entities
 {
+    /// <summary>
+    /// This is an entity model and a complete replication of the author table of the library db
+    /// </summary>
     public class Author
     {
         [Key]

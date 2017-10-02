@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildingRestFullApi.Entities
 {
+    /// <summary>
+    /// This is an entity model and a complete replica of the book table of library db
+    /// </summary>
     public class Book
     {
         [Key]
