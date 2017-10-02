@@ -4,6 +4,7 @@ using BuildingRestFullApi.Entities;
 using BuildingRestFullApi.Models;
 using BuildingRestFullApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Remotion.Linq.Utilities;
 
 namespace BuildingRestFullApi.Controllers
 {
@@ -77,6 +78,28 @@ namespace BuildingRestFullApi.Controllers
                 id = bookToSave.Id
 
             }, bookToReturn);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBookForAuthor(Guid authorId, Guid id)
+        {
+            if (!_repository.IsAuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var authorForBooks = _repository.GetBookForAuthor(authorId, id);
+            if (authorForBooks == null)
+            {
+                return NotFound();
+            }
+            _repository.DeleteBook(authorForBooks);
+            if (!_repository.SaveChanges())
+            {
+                throw  new Exception($"Error while deleting the book with {authorId} & {id} ");
+            }
+
+            return NoContent();
         }
     }
 }

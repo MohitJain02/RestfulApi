@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using BuildingRestFullApi.Entities;
 using BuildingRestFullApi.Models;
 using BuildingRestFullApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Remotion.Linq.Utilities;
 
 namespace BuildingRestFullApi.Controllers
 {
@@ -77,6 +79,42 @@ namespace BuildingRestFullApi.Controllers
             var authorToReturn = AutoMapper.Mapper.Map<AuthorDTo>(authorToSave);
             // to return the newly created uri along with the 201 created status code
             return CreatedAtRoute("GetAuthorById", new {id = authorToSave.Id}, authorToReturn);
+        }
+
+        /// <summary>
+        /// Just to return the correct status code when the post request is made for the particuler request type
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("{id}")]
+        public IActionResult BlockAuthorCreation(Guid id)
+        {
+            if (_repository.IsAuthorExists(id))
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
+            return NotFound();
+        }
+
+        [HttpDelete("id")]
+        public IActionResult DeleteAuthor(Guid id)
+        {
+
+            var author = _repository.GetAuthorById(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteAuthor(author);
+
+            if (!_repository.SaveChanges())
+            {
+                throw  new Exception($"Error while deleting the author with {id}");
+            }
+
+            return NoContent();
         }
     }
 };

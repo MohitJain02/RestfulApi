@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BuildingRestFullApi.Entities;
 using BuildingRestFullApi.Models;
 using BuildingRestFullApi.Services;
@@ -6,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildingRestFullApi.Controllers
 {
-    [Route("api/authorscollection")]
-    public class AuthorsCollectionController : Controller
+    [Route("api/authorcollections")]
+    public class AuthorCollectionsController : Controller
     {
         private ILibraryRepository _repository;
 
-        public AuthorsCollectionController(ILibraryRepository libraryRepository)
+        public AuthorCollectionsController(ILibraryRepository libraryRepository)
         {
             _repository = libraryRepository;
         }
@@ -29,6 +30,11 @@ namespace BuildingRestFullApi.Controllers
             foreach (var author in authorCollectionToSave)
             {
                 _repository.AddAuthor(author);
+            }
+
+            if (_repository.SaveChanges())
+            {
+                throw new Exception("Creating an author collection fails");
             }
 
             return Ok();

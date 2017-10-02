@@ -38,7 +38,9 @@ namespace BuildingRestFullApi
                 //unsupported media type is passed by the client to the server and by default it is false
                 option.ReturnHttpNotAcceptable = true;
 
+                // we are using the xmldatacontractserializer so that our reuest can hable the datetimeoffset 
                 option.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                option.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
 
             });
 
