@@ -1,0 +1,104 @@
+﻿// Patch Document Body 
+media type : application/json-patch+json
+
+Body =>
+
+--------------------------------------------------------------------
+1) For Remove Operation :
+	{
+	"op" : "remove"
+	"path" : "/title""
+	}
+	
+	End Result : Will remove the value of the title and will set the default value of the title
+	
+2)	For Replace Operations
+	{
+		"op" : "replace",
+		"path" : "/description",
+		"value" : "new description"
+	}
+	
+	End Result : Will replace the new value of the description as mentioned by overriding the old value of description 
+	
+3)	For Add Operations
+	{
+	"op" : "add",
+	"path" : "/description",
+	"value" : "add description"
+	}
+	
+	End Result : Will add the new value of the description if it is present or not
+	
+4)	For Copy Operations
+	{
+	"op" : "copy",
+	"from" : "/description",
+	"path" : "/title"
+	}
+	
+	End Result : Will result in a copy of value from the description inside the title field and keeping the description
+				value intact. 
+	
+5)	Move Operation
+	{
+	"op" : "move",
+	"from" : "/description",
+	"path" : "/title"
+	}
+	
+
+	End Result : Will move the value from the description to title and keeping the description value to empty 
+
+
+
+
+	/******************************************************************************
+
+Set of querystring parameters for filtering the search
+
+	1) orderBy
+	http://localhost:6058/api/authors?orderby=name
+	http://localhost:6058/api/authors?orderBy=genre desc
+	http://localhost:6058/api/authors?orderBy=age, genre desc
+
+	End Result => will return the results in ascending order of the name 
+					descending order of genre
+				    order by age and then by genre desc
+
+
+
+	2)pageNumber and pageSize 
+	http://localhost:6058/api/authors?orderby=name&pageNumber=1&pageSize=2
+
+	End Result => Will result in pagination of records
+	Will return the new X-pagination header containg the paging metadata
+	x-pagination →{"totalCount":6,
+					"nextPageLink":"http://localhost:6058/api/authors?orderBy=name&pageNumber=2&pageSize=2",
+					"previousPageLink":null,
+					"totalPages":3,
+					"pageSize":0,
+					"currentPage":1}
+
+
+	3)Filtering
+	http://localhost:6058/api/authors?genre=horror
+
+	End Result => Will return all the authors with the genre of horror
+
+
+	/******************************************************************************
+
+	Data Shaping
+
+	http://localhost:6058/api/authors?fields=Id,name
+
+	End Result => Will return the all authors but with id and name only and no other data
+
+
+
+	/***************************************************************/
+
+	Important Links to view the HATEOAS Links :
+
+	http://localhost:6058/api/authors?fields=id,name

@@ -1,4 +1,6 @@
 ﻿using Library.API.Entities;
+using Library.API.Helpers;
+using Library.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,12 @@ namespace Library.API.Services
     {
         private LibraryContext _context;
 
-        public LibraryRepository(LibraryContext context)
+        private IPropertyMappingService _propertyMappingService;
+
+        public LibraryRepository(LibraryContext context, IPropertyMappingService propertyMappingService)
         {
             _context = context;
+            _propertyMappingService = propertyMappingService;
         }
 
         public void AddAuthor(Author author)
@@ -64,9 +69,36 @@ namespace Library.API.Services
             return _context.Authors.FirstOrDefault(a => a.Id == authorId);
         }
 
-        public IEnumerable<Author> GetAuthors()
+        public PagedList<Author> GetAuthors(AuthorResourceParameters authorResourceParameters)
         {
-            return _context.Authors.OrderBy(a => a.FirstName).ThenBy(a => a.LastName);
+            //var collectionBeforePaging = _context.Authors
+            //                             .OrderBy(a => a.FirstName)
+            //                             .ThenBy(a => a.LastName).AsQueryable();
+
+            var collectionBeforePaging = _context.Authors.ApplySort(authorResourceParameters.OrderBy,
+                _propertyMappingService.GetPropertyMapping<AuthorDto, Author>());
+
+            if(!string.IsNullOrEmpty(authorResourceParameters.Genre))
+            {
+                var genreFoWhereClause = authorResourceParameters.Genre.Trim().ToLowerInvariant();
+
+                collectionBeforePaging = collectionBeforePaging.Where(x => x.Genre.ToLowerInvariant() == genreFoWhereClause);
+            }
+
+            if(!string.IsNullOrEmpty(authorResourceParameters.SearchQuery))
+            {
+                var searchQueryForWhereClause = authorResourceParameters.SearchQuery.Trim().ToLowerInvariant();
+
+                collectionBeforePaging = collectionBeforePaging
+                                        .Where(x => x.Genre.ToLowerInvariant().Contains(searchQueryForWhereClause)
+                                           || x.FirstName.ToLowerInvariant().Contains(searchQueryForWhereClause)
+                                           || x.LastName.ToLowerInvariant().Contains(searchQueryForWhereClause)); 
+            }
+
+            return PagedList<Author>.Create(collectionBeforePaging,
+                                            authorResourceParameters.PageNumber,
+                                            authorResourceParameters.PageSize);
+                
         }
 
         public IEnumerable<Author> GetAuthors(IEnumerable<Guid> authorIds)
@@ -97,6 +129,10 @@ namespace Library.API.Services
         public void UpdateBookForAuthor(Book book)
         {
             // no code in this implementation
+            // as EF tracks the entity using the dbContext so
+            // there is no need to implement this method if we are updating
+            // the values using the automapper 
+            // then calling save will persist those changes inside db
         }
 
         public bool Save()

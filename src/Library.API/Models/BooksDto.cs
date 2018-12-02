@@ -2,7 +2,7 @@
 
 namespace Library.API.Models
 {
-    public class BooksDto
+    public class BooksDto : LinkedResourceBaseDto
     {
 
         public Guid Id { get; set; }
