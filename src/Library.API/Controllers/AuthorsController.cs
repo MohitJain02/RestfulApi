@@ -30,8 +30,6 @@ namespace Library.API.Controllers
             this._typeHelperService = typeHelperService;
         }
 
-        protected override 
-
         [HttpGet(Name = "GetAuthors")]
         public IActionResult GetAuthors(
             [FromQuery] AuthorResourceParameters authorResourceParameters,
